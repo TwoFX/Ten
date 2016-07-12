@@ -15,7 +15,7 @@ namespace Ten
 			Move m;
 			do
 			{
-				m = new Move(rng.Next(0, 3), rng.Next(0, 10), rng.Next(0, 10));
+				m = new Move(rng.Next(0, state.NextMoves.Count), rng.Next(0, state.FieldSizeX), rng.Next(0, state.FieldSizeY));
 			} while (!state.IsValidMove(m));
 			return m;
 		}

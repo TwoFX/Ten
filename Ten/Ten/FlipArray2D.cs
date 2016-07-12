@@ -13,7 +13,7 @@
 
 		public int GetLength(int dimension)
 		{
-			return underlying.GetLength(1 - dimension);
+			return underlying.GetLength(flip ? 1 - dimension : dimension);
 		}
 
 		public T this[int i, int j]

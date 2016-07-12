@@ -10,6 +10,7 @@ namespace Ten
 {
 	class Program
 	{
+
 		[STAThread]
 		static void Main(string[] args)
 		{
@@ -29,7 +30,7 @@ namespace Ten
 			if (win != null)
 				game.AddObserver(win);
 			game.AddObserver(ci);
-			game.Run(600);
+			game.Run(500);
 		}
 	}
 }
