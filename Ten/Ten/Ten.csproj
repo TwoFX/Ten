@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ConsoleInteraction.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FirstBot.cs" />
     <Compile Include="FlipArray2D.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameState.cs" />
