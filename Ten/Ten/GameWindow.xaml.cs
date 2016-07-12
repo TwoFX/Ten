@@ -49,7 +49,6 @@ namespace Ten
 					h.HorizontalAlignment = HorizontalAlignment.Left;
 					h.VerticalAlignment = VerticalAlignment.Top;
 					h.Margin = new Thickness(OFFSET_LEFT + j * (BLOCK_SIZE + BLOCK_DISTANCE), OFFSET_TOP + i * (BLOCK_SIZE + BLOCK_DISTANCE), 0, 0);
-					Console.WriteLine(OFFSET_TOP + i * (BLOCK_SIZE + BLOCK_DISTANCE));
 					h.RadiusX = BLOCK_RADIUS;
 					h.RadiusY = BLOCK_RADIUS;
 					grid.Children.Add(h);

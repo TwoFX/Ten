@@ -43,7 +43,7 @@ namespace Ten
 		public Move GetNextMove(IReadOnlyGameState state)
 		{
 			Console.Write("Please enter your move (c x y): ");
-			int[] inp = Console.ReadLine().Split(' ').Select(x => int.Parse(x)).ToArray();
+			int[] inp = Console.ReadLine().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x)).ToArray();
 			return new Move(inp[0], inp[1], inp[2]);
 		}
 	}
