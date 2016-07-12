@@ -20,6 +20,7 @@ namespace Ten
 
 		public void Run()
 		{
+			notifyObservers();
 			MoveResult res;
 			do
 			{

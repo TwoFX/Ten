@@ -14,17 +14,26 @@ namespace Ten
 		public Tile[] NextMoves { get; private set; }
 		public int Score { get; private set; }
 		public bool IsGameRunning { get; private set; }
-
-		private int fieldSizeX, fieldSizeY;
+		public int FieldSizeX { get; private set; }
+		public int FieldSizeY { get; private set; }
 		
 		public GameState(int fieldSizeX, int fieldSizeY, int numMoves)
 		{
-			this.fieldSizeX = fieldSizeX;
-			this.fieldSizeY = fieldSizeY;
+			this.FieldSizeX = fieldSizeX;
+			this.FieldSizeY = fieldSizeY;
 			Field = new Color?[fieldSizeX, fieldSizeY];
 			NextMoves = new Tile[numMoves];
 			Score = 0;
 			IsGameRunning = true;
+			generateTiles();
+		}
+
+		private void generateTiles()
+		{
+			for (int i = 0; i < NextMoves.Length; i++)
+			{
+				NextMoves[i] = Tile.All[rng.Next(0, Tile.All.Count)];
+			}
 		}
 
 		private IEnumerable<int> checkRows(FlipArray2D<Color?> source)
@@ -57,7 +66,7 @@ namespace Ten
 				for (int y = 0; y < Tile.TILE_BOUNDS; y++)
 				{
 					if (NextMoves[move.Choice].Contention[x, y] &&
-						(move.X + x >= fieldSizeX || move.Y + y >= fieldSizeY ||
+						(move.X + x >= FieldSizeX || move.Y + y >= FieldSizeY ||
 						Field[move.X + x, move.Y + y] != null))
 						return false;
 				}
@@ -84,12 +93,7 @@ namespace Ten
 			// Remove choice and generate new choices if needed
 			NextMoves[move.Choice] = null;
 			if (NextMoves.All(x => x == null))
-			{
-				for (int i = 0; i < NextMoves.Length; i++)
-				{
-					NextMoves[i] = Tile.All[rng.Next(0, Tile.All.Count)];
-				}
-			}
+				generateTiles();
 
 			// Check for complete rows and columns and then clear them.
 			// The reason why this is split into two methods is that
@@ -105,7 +109,7 @@ namespace Ten
 			var cols = checkRows(colArr).ToList();
 
 			clearRows(rowArr, rows);
-			clearRows(colArr, rows);
+			clearRows(colArr, cols);
 
 			// The scoring system for cleared tiles in the original 1010!
 			// game assumes a square board. Here it how it awards points:
@@ -124,15 +128,15 @@ namespace Ten
 			// described above. The problem with finding a better approach
 			// is that the ordering in which rows and columns are counted
 			// starts mattering when the board is non-square.
-			Score += ((fieldSizeX + fieldSizeY) / 4)
+			Score += ((FieldSizeX + FieldSizeY) / 4)
 				* (rows.Count + cols.Count) * (rows.Count + cols.Count + 1);
 
 			// Check if the game has ended
 			for (int c = 0; c < NextMoves.Length; c++)
 			{
-				for (int x = 0; x < fieldSizeX; x++)
+				for (int x = 0; x < FieldSizeX; x++)
 				{
-					for (int y = 0; y < fieldSizeY; y++)
+					for (int y = 0; y < FieldSizeY; y++)
 					{
 						// There is at least one valid move left, so the game can continue
 						if (isValidMove(new Move(c, x, y)))
