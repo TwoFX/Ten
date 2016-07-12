@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows.Media;
 
 namespace Ten
 {
 	class Tile
 	{
-		private const int TILE_BOUNDS = 5;
+		public const int TILE_BOUNDS = 5;
 
 		private Tile(bool[,] Contention, Color Color)
 		{
@@ -31,6 +29,9 @@ namespace Ten
 
 		private static bool[,] contentionFromString(string s)
 		{
+			if (s == null)
+				throw new ArgumentNullException(nameof(s));
+
 			if (s.Length != TILE_BOUNDS * TILE_BOUNDS)
 				throw new ArgumentOutOfRangeException(nameof(s));
 
@@ -47,7 +48,7 @@ namespace Ten
 			return result;
 		}
 
-		public static IReadOnlyCollection<Tile> All { get; } = Array.AsReadOnly(new[]
+		public static ReadOnlyCollection<Tile> All { get; } = Array.AsReadOnly(new[]
 		{
 			new Tile(contentionFromString("1000000000000000000000000"), Color.FromRgb(116, 134, 210)), // 1x1 Block
 			new Tile(contentionFromString("1100011000000000000000000"), Color.FromRgb(152, 220, 85)), // 2x2 Block
