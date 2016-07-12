@@ -76,6 +76,7 @@ namespace Ten
 				}
 			}
 			Dispatcher.Invoke(() => pts.Content = state.Score);
+			Dispatcher.Invoke(() => pts.Foreground = new SolidColorBrush(state.IsGameRunning ? Color.FromRgb(92, 190, 228) : Color.FromRgb(220, 101, 85)));
 		}
 	}
 }

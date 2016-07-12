@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Ten
 {
@@ -18,7 +19,7 @@ namespace Ten
 			this.provider = provider;
 		}
 
-		public void Run()
+		public void Run(int moveDelay = 0)
 		{
 			notifyObservers();
 			MoveResult res;
@@ -29,6 +30,7 @@ namespace Ten
 					res = state.TryApplyMove(provider.GetNextMove(state));
 				} while (res == MoveResult.Invalid);
 				notifyObservers();
+				Thread.Sleep(moveDelay);
 			} while (res != MoveResult.GameEnded);
 		}
 

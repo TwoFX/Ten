@@ -56,7 +56,7 @@ namespace Ten
 			}
 		}
 
-		private bool isValidMove(Move move)
+		public bool IsValidMove(Move move)
 		{
 			if (NextMoves[move.Choice] == null)
 				return false;
@@ -77,7 +77,7 @@ namespace Ten
 		public MoveResult TryApplyMove(Move move)
 		{
 			// Invalid move: At least one block is alreay occupied
-			if (!isValidMove(move))
+			if (!IsValidMove(move))
 				return MoveResult.Invalid;
 
 			// Commit the move to the field
@@ -139,12 +139,13 @@ namespace Ten
 					for (int y = 0; y < FieldSizeY; y++)
 					{
 						// There is at least one valid move left, so the game can continue
-						if (isValidMove(new Move(c, x, y)))
+						if (IsValidMove(new Move(c, x, y)))
 							return MoveResult.OK;
 					}
 				}
 			}
 
+			IsGameRunning = false;
 			return MoveResult.GameEnded;
 		}
 

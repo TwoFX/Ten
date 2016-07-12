@@ -24,11 +24,12 @@ namespace Ten
 		{
 			GameWindow win = gameWindow as GameWindow;
 			var ci = new ConsoleInteraction();
-			var game = new Game(10, 10, 3, ci);
+			var bot = new RandomBot();
+			var game = new Game(10, 10, 3, bot);
 			if (win != null)
 				game.AddObserver(win);
 			game.AddObserver(ci);
-			game.Run();
+			game.Run(600);
 		}
 	}
 }

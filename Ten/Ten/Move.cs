@@ -1,6 +1,6 @@
 ﻿namespace Ten
 {
-	class Move
+	public class Move
 	{
 		public Move(int Choice, int X, int Y)
 		{
