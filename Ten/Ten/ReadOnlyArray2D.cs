@@ -2,7 +2,7 @@
 
 namespace Ten
 {
-	class ReadOnlyArray2D<T>
+	public class ReadOnlyArray2D<T>
 	{
 		private T[,] underlying;
 

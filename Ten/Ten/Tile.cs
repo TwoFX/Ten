@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 
 namespace Ten
 {
-	class Tile
+	public class Tile
 	{
 		public const int TILE_BOUNDS = 5;
 

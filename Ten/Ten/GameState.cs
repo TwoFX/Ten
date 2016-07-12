@@ -19,8 +19,8 @@ namespace Ten
 		
 		public GameState(int fieldSizeX, int fieldSizeY, int numMoves)
 		{
-			this.FieldSizeX = fieldSizeX;
-			this.FieldSizeY = fieldSizeY;
+			FieldSizeX = fieldSizeX;
+			FieldSizeY = fieldSizeY;
 			Field = new Color?[fieldSizeX, fieldSizeY];
 			NextMoves = new Tile[numMoves];
 			Score = 0;

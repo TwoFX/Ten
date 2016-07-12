@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Ten
 {
-	interface IReadOnlyGameState
+	public interface IReadOnlyGameState
 	{
 		ReadOnlyCollection<Tile> NextMoves { get; }
 		ReadOnlyArray2D<Color?> Field { get; }
