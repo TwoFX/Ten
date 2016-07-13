@@ -6,14 +6,24 @@ using System.Threading.Tasks;
 
 namespace Ten
 {
+	[SingleInstance]
+	[SelectorName("Console Interface")]
 	class ConsoleInteraction : IGameStateObserver, IMoveProvider
 	{
+		private int fieldSizeX, fieldSizeY;
+
+		public ConsoleInteraction(GameParameters pars)
+		{
+			fieldSizeX = pars.FieldSizeX;
+			fieldSizeY = pars.FieldSizeY;
+		}
+
 		public void Notify(IReadOnlyGameState state)
 		{
 			Console.WriteLine($"Score: {state.Score}");
-			for (int i = 0; i < state.FieldSizeX; i++)
+			for (int i = 0; i < fieldSizeX; i++)
 			{
-				for (int j = 0; j < state.FieldSizeY; j++)
+				for (int j = 0; j < fieldSizeY; j++)
 				{
 					Console.Write(state.Field[i, j] != null ? '#' : '.');
 				}

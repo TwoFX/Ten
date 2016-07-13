@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace Ten
 {
+	[SelectorName("My First Bot")]
 	class FirstBot : IMoveProvider
 	{
+		private int fieldSizeX, fieldSizeY;
+
+		public FirstBot(GameParameters pars)
+		{
+			fieldSizeX = pars.FieldSizeX;
+			fieldSizeY = pars.FieldSizeY;
+		}
+
 		private int scoreMove(IReadOnlyGameState state, Move m)
 		{
 			List<Tuple<int, int>> occ = Enumerable.Range(0, Tile.TILE_BOUNDS)
@@ -16,38 +25,40 @@ namespace Ten
 				.Select(x => Tuple.Create(m.X + x.i, m.Y + x.j)).ToList();
 
 			int score = 0;
-			for (int i = 0; i < state.FieldSizeX; i++)
+			for (int i = 0; i < fieldSizeX; i++)
 			{
-				if (Enumerable.Range(0, state.FieldSizeY).All(j => state.Field[i, j] != null || occ.Contains(Tuple.Create(i, j))))
+				if (Enumerable.Range(0, fieldSizeY).All(j => state.Field[i, j] != null || occ.Contains(Tuple.Create(i, j))))
 					score += 10;
 
-				if (Enumerable.Range(0, state.FieldSizeY).All(j => state.Field[i, j] == null) && Enumerable.Range(0, state.FieldSizeY).Any(j => occ.Contains(Tuple.Create(i, j))))
-					score += -2;
+				if (Enumerable.Range(0, fieldSizeY).All(j => state.Field[i, j] == null) && Enumerable.Range(0, fieldSizeY).Any(j => occ.Contains(Tuple.Create(i, j))))
+					score += -1;
 			}
 
-			for (int j = 0; j < state.FieldSizeY; j++)
+			for (int j = 0; j < fieldSizeY; j++)
 			{
-				if (Enumerable.Range(0, state.FieldSizeX).All(i => state.Field[i, j] != null || occ.Contains(Tuple.Create(i, j))))
+				if (Enumerable.Range(0, fieldSizeX).All(i => state.Field[i, j] != null || occ.Contains(Tuple.Create(i, j))))
 					score += 10;
 
-				if (Enumerable.Range(0, state.FieldSizeX).All(i => state.Field[i, j] == null) && Enumerable.Range(0, state.FieldSizeX).Any(i => occ.Contains(Tuple.Create(i, j))))
-					score += -5;
+				if (Enumerable.Range(0, fieldSizeX).All(i => state.Field[i, j] == null) && Enumerable.Range(0, fieldSizeX).Any(i => occ.Contains(Tuple.Create(i, j))))
+					score += -2;
 			}
 
 			foreach (Tile cand in Tile.All)
 			{
-				for (int i = 0; i < state.FieldSizeX; i++)
+				for (int i = 0; i < fieldSizeX; i++)
 				{
-					for (int j = 0; j < state.FieldSizeY; j++)
+					for (int j = 0; j < fieldSizeY; j++)
 					{
 						if (Enumerable.Range(0, Tile.TILE_BOUNDS).SelectMany(x => Enumerable.Range(0, Tile.TILE_BOUNDS).Select(y => new { x, y }))
-							.Where(p => cand.Contention[p.x, p.y]).All(p => i + p.x < state.FieldSizeX && j + p.y < state.FieldSizeY && state.Field[i + p.x, j + p.y] == null && !occ.Contains(Tuple.Create(i + p.x, j + p.y))))
+							.Where(p => cand.Contention[p.x, p.y]).All(p => i + p.x < fieldSizeX && j + p.y < fieldSizeY && state.Field[i + p.x, j + p.y] == null && !occ.Contains(Tuple.Create(i + p.x, j + p.y))))
 							goto found;
 					}
 				}
-				score -= 4;
+				score -= (state.NextMoves.Count(x => x == cand) > ((cand == state.NextMoves[m.Choice]) ? 1 : 0)) ? 10 : 5;
 				found:;
 			}
+
+			score += state.NextMoves[m.Choice].Contention.AsFlatEnumerable().Count(x => x);
 
 			return score;
 		}
@@ -55,12 +66,14 @@ namespace Ten
 		public Move GetNextMove(IReadOnlyGameState state)
 		{
 			List<Move> candidates = Enumerable.Range(0, state.NextMoves.Count)
-				.SelectMany(c => Enumerable.Range(0, state.FieldSizeX)
-				.SelectMany(x => Enumerable.Range(0, state.FieldSizeY)
+				.SelectMany(c => Enumerable.Range(0, fieldSizeX)
+				.SelectMany(x => Enumerable.Range(0, fieldSizeY)
 				.Select(y => new Move(c, x, y))))
 				.Where(m => state.IsValidMove(m)).ToList();
 
-			return candidates.OrderByDescending(x => scoreMove(state, x)).ThenBy(x => x.X).First();
+			var e = candidates.OrderByDescending(x => scoreMove(state, x)).First();
+			Console.WriteLine($"Selecting {e.Choice} {e.X} {e.Y} with score {scoreMove(state, e)}.");
+			return e;
 		}
 	}
 }

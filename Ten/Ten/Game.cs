@@ -13,9 +13,9 @@ namespace Ten
 		private GameState state;
 		private IMoveProvider provider;
 
-		public Game(int fieldSizeX, int fieldSizeY, int numMoves, IMoveProvider provider)
+		public Game(GameParameters pars, IMoveProvider provider)
 		{
-			state = new GameState(fieldSizeX, fieldSizeY, numMoves);
+			state = new GameState(pars.FieldSizeX, pars.FieldSizeY, pars.NumMoves);
 			this.provider = provider;
 		}
 

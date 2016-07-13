@@ -17,6 +17,7 @@ namespace Ten
 	/// <summary>
 	/// Interaction logic for GameWindow.xaml
 	/// </summary>
+	[SelectorName("Graphical Interface")]
 	public partial class GameWindow : Window, IGameStateObserver
 	{
 		private int fieldSizeX, fieldSizeY;
@@ -30,12 +31,12 @@ namespace Ten
 		private readonly Color empty = Color.FromRgb(235, 235, 235);
 		private Rectangle[,] field;
 
-		public GameWindow(int fieldSizeX, int fieldSizeY)
+		public GameWindow(GameParameters pars)
 		{
 			InitializeComponent();
 
-			this.fieldSizeX = fieldSizeX;
-			this.fieldSizeY = fieldSizeY;
+			fieldSizeX = pars.FieldSizeX;
+			fieldSizeY = pars.FieldSizeY;
 			field = new Rectangle[fieldSizeX, fieldSizeY];
 
 			for (byte i = 0; i < fieldSizeX; i++)
@@ -64,6 +65,8 @@ namespace Ten
 			SizeToContent = SizeToContent.WidthAndHeight;
 			grid.Height = OFFSET_TOP + fieldSizeX * BLOCK_SIZE + (fieldSizeX - 1) * BLOCK_DISTANCE + OFFSET_BOTTOM;
 			grid.Width = OFFSET_LEFT + fieldSizeY * BLOCK_SIZE + (fieldSizeY - 1) * BLOCK_DISTANCE + OFFSET_RIGHT;
+
+			Show();
 		}
 
 		public void Notify(IReadOnlyGameState state)

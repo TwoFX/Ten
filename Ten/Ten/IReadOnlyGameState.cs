@@ -8,8 +8,6 @@ namespace Ten
 		ReadOnlyCollection<Tile> NextMoves { get; }
 		ReadOnlyArray2D<Color?> Field { get; }
 
-		int FieldSizeX { get; }
-		int FieldSizeY { get; }
 		int Score { get; }
 		bool IsGameRunning { get; }
 
