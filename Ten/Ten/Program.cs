@@ -1,10 +1,11 @@
-﻿using System;
+﻿/*
+ * Program.cs
+ * Copyright (c) 2016 Markus Himmel
+ * This file is distributed under the terms of the MIT license.
+ */
+
+using System;
 using System.Windows;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Ten
 {

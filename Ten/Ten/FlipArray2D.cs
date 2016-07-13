@@ -1,4 +1,10 @@
-﻿namespace Ten
+﻿/*
+ * FlipArray2D.cs
+ * Copyright (c) 2016 Markus Himmel
+ * This file is distributed under the terms of the MIT license.
+ */
+
+namespace Ten
 {
 	class FlipArray2D<T>
 	{
